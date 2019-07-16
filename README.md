@@ -13,6 +13,14 @@ npm install -g gulp-cli
 npm install --save-dev gulp
 ```
 
+-   gulpfile.js
+
+```JavaScript
+import gulp from 'gulp';
+
+export const dev = gulp.series([...]);
+```
+
 ### Gulp Commands
 
 -   src() -> what file
