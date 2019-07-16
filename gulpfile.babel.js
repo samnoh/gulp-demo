@@ -1,7 +1,8 @@
+import del from 'del';
 import gulp from 'gulp';
 import gulpPug from 'gulp-pug';
 import gulpWebserver from 'gulp-webserver';
-import del from 'del';
+import gulpImage from 'gulp-image';
 
 // Routes
 const routes = {
@@ -12,6 +13,10 @@ const routes = {
         watch: 'src/**/*.pug',
         src: 'src/*.pug',
         dest: 'build'
+    },
+    img: {
+        src: 'src/img/*',
+        dest: 'build/img'
     }
 };
 
@@ -25,16 +30,23 @@ const pug = () =>
         .pipe(gulpPug())
         .pipe(gulp.dest(routes.pug.dest));
 
+const img = () =>
+    gulp
+        .src(routes.img.src)
+        .pipe(gulpImage())
+        .pipe(gulp.dest(routes.img.dest));
+
 // Live
 const webserver = () =>
     gulp.src('build').pipe(gulpWebserver({ livereload: true, open: true, port: 8000 }));
 
 const watch = () => {
     gulp.watch(routes.pug.watch, pug);
+    gulp.watch(routes.img.src, img);
 };
 
 // Run
-const prepare = gulp.series([clean]);
+const prepare = gulp.series([clean, img]);
 const assets = gulp.series([pug]);
 const live = gulp.parallel([webserver, watch]);
 
