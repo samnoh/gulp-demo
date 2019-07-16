@@ -10,4 +10,5 @@
 
 ```Shell
 npm install -g gulp-cli
+npm install --save-dev gulp
 ```
