@@ -17,8 +17,15 @@ npm install --save-dev gulp
 
 ```JavaScript
 import gulp from 'gulp';
+import dummy from 'dummy';
 
-export const dev = gulp.series([...]);
+const test = () =>
+    gulp
+        .src(...)
+        .pipe(dummy())
+        .pipe(gulp.dest(...));
+
+export const dev = gulp.series([test]);
 ```
 
 ### Gulp Commands
