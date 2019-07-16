@@ -6,6 +6,8 @@ import gulpImage from 'gulp-image';
 import gulpSass from 'gulp-sass';
 import gulpAutoprefixer from 'gulp-autoprefixer';
 import gulpCsso from 'gulp-csso';
+import gulpBro from 'gulp-bro';
+import babelify from 'babelify';
 
 gulpSass.compiler = require('node-sass');
 
@@ -27,6 +29,11 @@ const routes = {
         watch: 'src/scss/**/*.scss',
         src: 'src/scss/style.scss',
         dest: 'build/css'
+    },
+    js: {
+        watch: 'src/js/**/*.js',
+        src: 'src/js/main.js',
+        dest: 'build/js'
     }
 };
 
@@ -56,9 +63,16 @@ const sass = () =>
 
 const js = () =>
     gulp
-        .src()
-        .pipe()
-        .pipe();
+        .src(routes.js.src)
+        .pipe(
+            gulpBro({
+                transform: [
+                    babelify.configure({ presets: ['@babel/preset-env'] }),
+                    ['uglifyify', { global: true }]
+                ]
+            })
+        )
+        .pipe(gulp.dest(routes.js.dest));
 
 // Live
 const webserver = () =>
@@ -68,11 +82,12 @@ const watch = () => {
     gulp.watch(routes.pug.watch, pug);
     gulp.watch(routes.img.src, img);
     gulp.watch(routes.sass.watch, sass);
+    gulp.watch(routes.js.watch, js);
 };
 
 // Run
 const prepare = gulp.series([clean, img]);
-const assets = gulp.series([pug, sass]);
+const assets = gulp.series([pug, sass, js]);
 const live = gulp.parallel([webserver, watch]);
 
 export const dev = gulp.series([prepare, assets, live]);
