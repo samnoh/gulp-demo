@@ -23,8 +23,9 @@ export const dev = gulp.series([...]);
 
 ### Gulp Commands
 
--   src() -> what file
--   pipe() -> do plugin or send it to the destination
+-   src() -> what files
+-   dest() -> build destination
+-   pipe() -> do plugin or send it to the build destination
 -   watch() -> watch file changes
 -   series() -> do tasks synchronously
 -   parallel() -> do tasks simultaneously
@@ -33,3 +34,7 @@ export const dev = gulp.series([...]);
 
 -   gulp-webserver({livereload: true, open: true}) -> live webserver
 -   gulp-pug -> pug to html
+-   gulp-image -> compress images
+-   gulp-sass -> scss to css
+-   gulp-bro -> babelify js
+-   gulp-gh-pages -> publish contents to GitHub page
